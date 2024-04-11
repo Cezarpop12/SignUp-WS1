@@ -7,7 +7,7 @@ public class User {
     @Id
     private String userID;
     private String name;
-    private String username;
+    private String userName;
     private String password;
     private String email;
 
@@ -15,10 +15,10 @@ public class User {
         // Default constructor
     }
 
-    public User(String UserID, String Name, String Username, String Password, String Email) {
+    public User(String UserID, String Name, String UserName, String Password, String Email) {
         this.userID = UserID;
         this.name = Name;
-        this.username = Username;
+        this.userName = UserName;
         this.password = Password;
         this.email = Email;
     }
@@ -43,11 +43,11 @@ public class User {
 
     // Getter and setter methods for username
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     // Getter and setter methods for password
