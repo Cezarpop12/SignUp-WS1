@@ -1,4 +1,8 @@
 package com.SignUp.Model;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -6,9 +10,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private String userID;
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 3, max = 10, message = "Name must be between 3 and 10 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Name can only contain alphanumeric characters and underscores")
     private String name;
+    @NotBlank(message = "Username is mandatory")
+    @Size(min = 3, max = 10, message = "Username must be between 3 and 10 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain alphanumeric characters and underscores")
     private String username;
+    @NotBlank(message = "Password is mandatory")
+    @Size(min = 3, max = 10, message = "Password must be between 3 and 10 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Password can only contain alphanumeric characters and underscores")
     private String password;
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
     private String email;
 
     public User() {
