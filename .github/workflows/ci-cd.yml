@@ -29,6 +29,9 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
+      - name: Run tests with Maven
+        run: mvn test
+
       - name: Build Docker image
         run: docker build -t cezarpop/walkingskeleton1_foodconnect:signup-service .
 
