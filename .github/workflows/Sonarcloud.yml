@@ -13,6 +13,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install SonarScanner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sonar-scanner
+
       - name: SonarCloud Scan
         run: sonar-scanner \
           -Dsonar.projectKey=Cezarpop12_SignUp-WS1 \
