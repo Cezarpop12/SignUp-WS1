@@ -44,5 +44,5 @@ jobs:
       - name: Push Docker image
         run: docker push cezarpop/walkingskeleton1_foodconnect:signup-service
 
-      - name: Pull Docker image
-        run: docker pull cezarpop/walkingskeleton1_foodconnect:signup-service
+      # - name: Pull Docker image
+      #   run: docker pull cezarpop/walkingskeleton1_foodconnect:signup-service
