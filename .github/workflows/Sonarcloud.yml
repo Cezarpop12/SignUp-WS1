@@ -4,26 +4,37 @@ on:
   push:
     branches:
       - main
-
 jobs:
-  sonarcloud_analysis:
+  sonarcloud:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install SonarScanner
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y sonar-scanner
-
+      - uses: actions/checkout@v4
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
       - name: SonarCloud Scan
-        run: sonar-scanner \
-          -Dsonar.projectKey=Cezarpop12_SignUp-WS1 \
-          -Dsonar.organization=cezarpop12 \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=93efab0926273cd447dc450f56b19e281649b78b
+        uses: sonarsource/sonarcloud-github-action@<v2.2.0> # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
         env:
-          SONAR_TOKEN: ${{ secrets.Sonar }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#jobs:
+#  sonarcloud_analysis:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#
+##      - name: Install SonarScanner
+##        run: |
+##          sudo apt-get update
+##          sudo apt-get install -y sonar-scanner
+#
+#      - name: SonarCloud Scan
+#        run: sonar-scanner \
+#          -Dsonar.projectKey=Cezarpop12_SignUp-WS1 \
+#          -Dsonar.organization=cezarpop12 \
+#          -Dsonar.sources=. \
+#          -Dsonar.host.url=https://sonarcloud.io \
+#          -Dsonar.login=${{ secrets.SONARCLOUDLOGIN_TOKEN }}
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
