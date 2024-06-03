@@ -15,7 +15,10 @@
 	<description>Walkingskeleton 1 SignUp</description>
 	<properties>
 		<java.version>21</java.version>
+			<sonar.organization>cezarpop12</sonar.organization>
+			<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
+
 	<dependencies>
 <!--		<dependency>-->
 <!--			<groupId>org.springframework.boot</groupId>-->

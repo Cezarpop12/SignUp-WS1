@@ -1,40 +1,38 @@
-name: SonarCloud Analysis
-
+name: SonarCloud
 on:
   push:
     branches:
       - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
 jobs:
-  sonarcloud:
+  build:
+    name: Build and analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
-          fetch-depth: 0
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.2.0 # Ex: v2.1.0, See the latest version at https://github.com/marketplace/actions/sonarcloud-scan
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: 21
+          distribution: 'zulu' # Alternative distribution options are available.
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#jobs:
-#  sonarcloud_analysis:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#
-##      - name: Install SonarScanner
-##        run: |
-##          sudo apt-get update
-##          sudo apt-get install -y sonar-scanner
-#
-#      - name: SonarCloud Scan
-#        run: sonar-scanner \
-#          -Dsonar.projectKey=Cezarpop12_SignUp-WS1 \
-#          -Dsonar.organization=cezarpop12 \
-#          -Dsonar.sources=. \
-#          -Dsonar.host.url=https://sonarcloud.io \
-#          -Dsonar.login=${{ secrets.SONARCLOUDLOGIN_TOKEN }}
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Cezarpop12_SignUp-WS1
